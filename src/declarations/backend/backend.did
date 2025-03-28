@@ -1,0 +1,5 @@
+service : {
+  getTasksList: () -> (vec text) query;
+  greet: (text) -> (text) query;
+  setGreeting: (text) -> ();
+}

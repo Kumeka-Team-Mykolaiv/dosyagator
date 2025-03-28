@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="uk">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hello dosyagator</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+  <script type="module">
+    // Import the backend actor
+    import { backend } from 'declarations/backend';
+    import Alpine from 'alpinejs';
+
+    window.backend = backend;
+    window.Alpine = Alpine;
+    Alpine.start();
+
+    // Add an event listener to the form
+    document.querySelector('done-button').addEventListener('click', async (e) => {
+
+      const name = document.getElementById('name').value.toString();
+      // Calling the method "greet" on the backend actor with the name
+      const greeting = await backend.greet(name);
+      // Display the greeting returned by the backend actor
+      document.getElementById('greeting').innerText = greeting;
+    });
+  </script>
+</head>
+
+<body>
+  <div class="container p-5">
+    <h2 class="title is-2">Ціль - Провести зустріч по імпровізації</h2>
+    <main x-data="{ 
+        message: 'abc',
+        tasks: [],
+        async markTasksDone() {
+          try {
+            await backend.markTasksAsDone();
+            console.log('Tasks marked as done');
+          } catch (error) {
+            console.error('Error marking tasks as done:', error);
+          }
+        }
+      }" x-init="async () => { tasks = await backend.getTasksList(); console.log(tasks); }">
+      
+      <section id="tasks" class="box">
+        <ul id="taskList">
+          <template x-for="task in tasks">
+            <li class="block">
+              <label class="checkbox">
+                <input type="checkbox" onclick="toggleTask(this)">
+                <span x-text="task"></span>
+              </label>
+            </li>
+          </template>
+        </ul>
+      </section>
+      
+      <button id="done-button" type="button" @click="markTasksDone()" class="button is-primary is-large">Задачі виконано
+        вчасно</button>
+      <section id="greeting" class="notification is-info is-light mt-4"></section>
+    </main>
+  </div>
+</body>
+
+</html>
