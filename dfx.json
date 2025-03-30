@@ -10,7 +10,7 @@
       "frontend": {
         "entrypoint": "frontend/index.html"
       },
-      "source": ["frontend/dist"],
+      "source": ["frontend/dist", "frontend/assets"],
       "type": "assets"
     }
   },

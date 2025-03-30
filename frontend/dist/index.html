@@ -24,10 +24,39 @@
           }
         }
       }" x-init="async () => { tasks = await backend.getTasksList(); console.log(tasks); }">
-      
+
       <section id="tasks" class="box">
+        <div>
+          <div class="field is-horizontal">
+            <div class="field-label is-normal">
+              <label class="label">Виконавець:</label>
+            </div>
+            <div class="field-body">
+              <span class="has-text-weight-semibold">Олексій Гнилицький</span>
+            </div>
+          </div>
+        
+          <div class="field is-horizontal">
+            <div class="field-label is-normal">
+              <label class="label">Статус цілі:</label>
+            </div>
+            <div class="field-body">
+              <span class="has-text-weight-semibold">Надіслано звіт до дедлайну</span>
+            </div>
+          </div>
+        
+          <div class="field is-horizontal">
+            <div class="field-label is-normal">
+              <label class="label">Помічник:</label>
+            </div>
+            <div class="field-body">
+              <span class="has-text-weight-semibold">Сергій Ларін</span>
+            </div>
+          </div>
+        </div>      
+
         <ul id="taskList">
-          <template x-for="task in tasks">
+          <template x-for="(task, index) in tasks" :key="index">
             <li class="block">
               <label class="checkbox">
                 <input type="checkbox" onclick="toggleTask(this)">
@@ -35,9 +64,12 @@
               </label>
             </li>
           </template>
+          <div>Тип звіту: фото</div>
+          <div><img src="/01.jpeg" alt="фото з результатом виконання"></div>
+
         </ul>
       </section>
-      
+
       <button id="done-button" type="button" @click="markTasksDone()" class="button is-primary is-large">Задачі виконано
         вчасно</button>
       <section id="greeting" class="notification is-info is-light mt-4"></section>
